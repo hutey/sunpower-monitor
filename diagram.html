@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SunPower Monitor — Architecture</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f0f4f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  .card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 44px 52px 36px;
+    width: 920px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+    border: 1px solid #e2e8f0;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a202c;
+    letter-spacing: 0.01em;
+  }
+  .header p {
+    font-size: 12px;
+    color: #475569;
+    margin-top: 6px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .diagram {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  .node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .icon-wrap {
+    width: 78px;
+    height: 78px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    position: relative;
+  }
+
+  .icon-wrap.solar  { background: #fff8e7; border: 2px solid #fbbf24; }
+  .icon-wrap.pvs    { background: #fff3ed; border: 2px solid #fb923c; }
+  .icon-wrap.pi     { background: #f0fdf4; border: 2px solid #34d399; }
+  .icon-wrap.cloud  { background: #f5f3ff; border: 2px solid #818cf8; }
+  .icon-wrap.phone  { background: #eff6ff; border: 2px solid #60a5fa; }
+
+  .node-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    text-align: center;
+  }
+  .node-sub {
+    font-size: 11px;
+    color: #475569;
+    text-align: center;
+    margin-top: -4px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 0 0 auto;
+    padding-bottom: 32px;
+  }
+  .arrow svg {
+    width: 56px;
+    height: 16px;
+  }
+  .arrow-label {
+    font-size: 10px;
+    color: #475569;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .bands {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+  }
+  .band {
+    flex: 1;
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .band.local  { background: #f0fdf4; border: 1.5px solid #bbf7d0; }
+  .band.remote { background: #f5f3ff; border: 1.5px solid #ddd6fe; }
+  .band-icon { font-size: 18px; margin-top: 1px; }
+  .band-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .band.local  .band-title { color: #15803d; }
+  .band.remote .band-title { color: #6d28d9; }
+  .band-desc {
+    font-size: 11px;
+    color: #64748b;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 11px;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+
+  .pi-label {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    background: #15803d;
+    color: white;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 5px;
+    letter-spacing: 0.05em;
+  }
+  .pvs-badge {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    background: #ea580c;
+    color: white;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 5px;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <h1>☀️ SunPower Local Monitor</h1>
+    <p>Real-time solar dashboard · accessible from anywhere</p>
+  </div>
+
+  <div class="diagram">
+
+    <!-- Solar Panels -->
+    <div class="node">
+      <div class="icon-wrap solar">🌞</div>
+      <div class="node-label">Solar Panels</div>
+      <div class="node-sub">SunPower<br>Microinverters</div>
+    </div>
+
+    <div class="arrow">
+      <svg viewBox="0 0 56 16" fill="none">
+        <line x1="0" y1="8" x2="46" y2="8" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 3"/>
+        <polyline points="40,3 52,8 40,13" stroke="#fbbf24" stroke-width="2" fill="none" stroke-linejoin="round"/>
+      </svg>
+      <div class="arrow-label">Live Data</div>
+    </div>
+
+    <!-- PVS6 -->
+    <div class="node">
+      <div class="icon-wrap pvs">
+        📡
+        <div class="pvs-badge">PVS6</div>
+      </div>
+      <div class="node-label">SunPower Hub</div>
+      <div class="node-sub">Local network<br>HTTPS API</div>
+    </div>
+
+    <div class="arrow">
+      <svg viewBox="0 0 56 16" fill="none">
+        <line x1="0" y1="8" x2="46" y2="8" stroke="#34d399" stroke-width="2" stroke-dasharray="4 3"/>
+        <polyline points="40,3 52,8 40,13" stroke="#34d399" stroke-width="2" fill="none" stroke-linejoin="round"/>
+      </svg>
+      <div class="arrow-label">Polls every 30s</div>
+    </div>
+
+    <!-- Raspberry Pi -->
+    <div class="node">
+      <div class="icon-wrap pi">
+        🍓
+        <div class="pi-label">Pi</div>
+      </div>
+      <div class="node-label">Raspberry Pi</div>
+      <div class="node-sub">Flask dashboard<br>Always-on</div>
+    </div>
+
+    <div class="arrow">
+      <svg viewBox="0 0 56 16" fill="none">
+        <line x1="0" y1="8" x2="46" y2="8" stroke="#818cf8" stroke-width="2" stroke-dasharray="4 3"/>
+        <polyline points="40,3 52,8 40,13" stroke="#818cf8" stroke-width="2" fill="none" stroke-linejoin="round"/>
+      </svg>
+      <div class="arrow-label">Tailscale VPN</div>
+    </div>
+
+    <!-- Tailscale -->
+    <div class="node">
+      <div class="icon-wrap cloud">🔐</div>
+      <div class="node-label">Tailscale</div>
+      <div class="node-sub">Encrypted tunnel<br>No open ports</div>
+    </div>
+
+    <div class="arrow">
+      <svg viewBox="0 0 56 16" fill="none">
+        <line x1="0" y1="8" x2="46" y2="8" stroke="#60a5fa" stroke-width="2" stroke-dasharray="4 3"/>
+        <polyline points="40,3 52,8 40,13" stroke="#60a5fa" stroke-width="2" fill="none" stroke-linejoin="round"/>
+      </svg>
+      <div class="arrow-label">Anywhere</div>
+    </div>
+
+    <!-- Phone -->
+    <div class="node">
+      <div class="icon-wrap phone">📱</div>
+      <div class="node-label">iPhone</div>
+      <div class="node-sub">Safari PWA<br>Home screen icon</div>
+    </div>
+
+  </div>
+
+  <!-- Bands -->
+  <div class="bands">
+    <div class="band local">
+      <div class="band-icon">🏠</div>
+      <div>
+        <div class="band-title">Home Network</div>
+        <div class="band-desc">Panels → PVS6 → Raspberry Pi all communicate locally. Data never leaves your home network.</div>
+      </div>
+    </div>
+    <div class="band remote">
+      <div class="band-icon">🌐</div>
+      <div>
+        <div class="band-title">Remote Access</div>
+        <div class="band-desc">Tailscale creates a peer-to-peer encrypted tunnel. No open firewall ports. Works from anywhere in the world.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Built with Python · Flask · Tailscale &nbsp;·&nbsp; Self-hosted · Open source
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+config.json
+history.json
+__pycache__/
+*.pyc
+*.pyo
+*.dmg
+*.PNG
+*.jpg
+*.JPG
+.DS_Store
