@@ -130,13 +130,23 @@
   .badge.orange { background: #ea580c; }
   .badge.green  { background: #15803d; }
 
-  /* ── Home network flow (horizontal) ── */
+  /* ── Home network flow (grid: 5 cols × 2 rows) ── */
   .home-flow {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    grid-template-rows: auto auto;
     align-items: center;
     justify-content: center;
-    gap: 0;
-    flex: 1;
+    column-gap: 0;
+    row-gap: 0;
+  }
+  /* Storage sits in row 2, column 5 (under Pi) */
+  .home-storage {
+    grid-column: 5;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .h-arrow {
     display: flex;
@@ -144,7 +154,6 @@
     align-items: center;
     gap: 3px;
     padding: 0 6px;
-    padding-bottom: 20px;
   }
   .h-arrow svg { width: 40px; height: 14px; }
   .h-arrow-label {
@@ -157,12 +166,6 @@
   }
 
   /* ── Storage connector below Pi ── */
-  .pi-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-  }
   .v-connector {
     display: flex;
     flex-direction: column;
@@ -369,21 +372,21 @@
           <div class="node-sub">Flask · Gunicorn</div>
         </div>
 
-      </div>
+        <!-- Storage: row 2, pinned under Pi via grid -->
+        <div class="home-storage">
+          <div class="v-connector">
+            <svg viewBox="0 0 14 28" fill="none">
+              <line x1="7" y1="0" x2="7" y2="20" stroke="#ca8a04" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <polyline points="3,15 7,26 11,15" stroke="#ca8a04" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="node">
+            <div class="icon-wrap store" style="width:48px;height:48px;font-size:22px;border-radius:14px;">💾</div>
+            <div class="node-label" style="font-size:11px;">history.json</div>
+            <div class="node-sub">Daily baselines<br>per panel + grid</div>
+          </div>
+        </div>
 
-      <!-- Storage below Pi, right-aligned -->
-      <div style="display:flex;justify-content:flex-end;margin-top:2px;">
-        <div class="v-connector">
-          <svg viewBox="0 0 14 28" fill="none">
-            <line x1="7" y1="0" x2="7" y2="20" stroke="#ca8a04" stroke-width="1.5" stroke-dasharray="3 2"/>
-            <polyline points="3,15 7,26 11,15" stroke="#ca8a04" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="node" style="margin-left:8px;">
-          <div class="icon-wrap store" style="width:48px;height:48px;font-size:22px;border-radius:14px;">💾</div>
-          <div class="node-label" style="font-size:11px;">history.json</div>
-          <div class="node-sub">Daily baselines<br>per panel + grid</div>
-        </div>
       </div>
 
     </div>
