@@ -16,452 +16,480 @@
     padding: 32px 16px;
   }
   .card {
-    background: #ffffff;
+    background: #fff;
     border-radius: 24px;
-    padding: 44px 52px 36px;
-    width: 980px;
+    padding: 40px 44px 36px;
+    width: 960px;
     box-shadow: 0 8px 40px rgba(0,0,0,0.10);
     border: 1px solid #e2e8f0;
   }
+
+  /* ── Header ── */
   .header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 36px;
   }
   .header h1 {
-    font-size: 22px;
+    font-size: 21px;
     font-weight: 700;
     color: #1a202c;
     letter-spacing: 0.01em;
   }
   .header p {
-    font-size: 12px;
-    color: #475569;
-    margin-top: 6px;
-    letter-spacing: 0.08em;
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 5px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
   }
 
-  /* ── Main data flow ── */
-  .diagram {
-    display: flex;
+  /* ── Two-zone layout ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 120px 1fr;
     align-items: center;
-    justify-content: space-between;
-    gap: 4px;
+    gap: 0;
+    min-height: 280px;
   }
 
+  .zone {
+    border-radius: 16px;
+    padding: 28px 24px 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .zone-home   { background: #f8fffe; border: 1.5px solid #bbf7d0; }
+  .zone-remote { background: #faf7ff; border: 1.5px solid #ddd6fe; }
+
+  .zone-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .zone-home   .zone-label { color: #15803d; }
+  .zone-remote .zone-label { color: #6d28d9; }
+
+  /* ── Node shared styles ── */
   .node {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    flex: 1;
+    gap: 7px;
+    flex: 0 0 auto;
   }
-
   .icon-wrap {
-    width: 78px;
-    height: 78px;
-    border-radius: 20px;
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 32px;
+    font-size: 28px;
     position: relative;
+    flex-shrink: 0;
   }
-
   .icon-wrap.solar  { background: #fff8e7; border: 2px solid #fbbf24; }
   .icon-wrap.pvs    { background: #fff3ed; border: 2px solid #fb923c; }
   .icon-wrap.pi     { background: #f0fdf4; border: 2px solid #34d399; }
-  .icon-wrap.cloud  { background: #f5f3ff; border: 2px solid #818cf8; }
-  .icon-wrap.phone  { background: #eff6ff; border: 2px solid #60a5fa; }
-  .icon-wrap.store  { background: #fefce8; border: 2px solid #a16207; }
+  .icon-wrap.ts     { background: #f5f3ff; border: 2px solid #818cf8; }
+  .icon-wrap.device { background: #eff6ff; border: 2px solid #60a5fa; }
+  .icon-wrap.store  { background: #fefce8; border: 2px solid #ca8a04; }
 
   .node-label {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: #1e293b;
     text-align: center;
+    line-height: 1.3;
   }
   .node-sub {
-    font-size: 11px;
-    color: #475569;
+    font-size: 10px;
+    color: #64748b;
     text-align: center;
-    margin-top: -4px;
     line-height: 1.5;
     font-weight: 500;
   }
 
-  .arrow {
+  /* ── Badges on icons ── */
+  .badge {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    color: white;
+    border-radius: 6px;
+    font-size: 8px;
+    font-weight: 800;
+    padding: 2px 5px;
+    letter-spacing: 0.04em;
+  }
+  .badge.orange { background: #ea580c; }
+  .badge.green  { background: #15803d; }
+
+  /* ── Home network flow (horizontal) ── */
+  .home-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex: 1;
+  }
+  .h-arrow {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
-    flex: 0 0 auto;
-    padding-bottom: 32px;
+    gap: 3px;
+    padding: 0 6px;
+    padding-bottom: 20px;
   }
-  .arrow svg {
-    width: 56px;
-    height: 16px;
-  }
-  .arrow-label {
-    font-size: 10px;
-    color: #475569;
-    text-align: center;
-    letter-spacing: 0.05em;
+  .h-arrow svg { width: 40px; height: 14px; }
+  .h-arrow-label {
+    font-size: 9px;
+    color: #94a3b8;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     font-weight: 600;
     white-space: nowrap;
   }
 
-  /* ── Storage sub-row ── */
-  .storage-row {
-    display: flex;
-    justify-content: center;
-    margin: 16px 0 24px;
-  }
-  .storage-node {
+  /* ── Storage connector below Pi ── */
+  .pi-col {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 0;
   }
-  .storage-arrow {
+  .v-connector {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    margin: 0 6px;
+    margin: 6px 0 4px;
   }
-  .storage-arrow svg {
-    width: 16px;
-    height: 32px;
+  .v-connector svg { width: 14px; height: 28px; }
+
+  /* ── Gateway (centre column) ── */
+  .gateway {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 0 8px;
   }
-  .storage-label {
+  .gw-arrow { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .gw-arrow svg { width: 40px; height: 14px; }
+  .gw-arrow-label {
     font-size: 9px;
     color: #94a3b8;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     font-weight: 600;
   }
 
-  /* ── Access tier row ── */
-  .access-section {
-    margin: 8px 0 24px;
-  }
-  .access-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-align: center;
-    margin-bottom: 14px;
-  }
-  .access-paths {
+  /* ── Remote access paths ── */
+  .remote-paths {
     display: flex;
-    gap: 12px;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
   }
   .access-path {
-    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     border-radius: 12px;
-    padding: 14px 18px;
+    padding: 14px 16px;
   }
   .access-path.vpn    { background: #f0fdf4; border: 1.5px solid #86efac; }
   .access-path.funnel { background: #faf5ff; border: 1.5px solid #d8b4fe; }
-  .access-path-header {
+
+  .path-badge {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 7px;
+    border-radius: 6px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .vpn    .path-badge { background: #dcfce7; color: #15803d; }
+  .funnel .path-badge { background: #ede9fe; color: #6d28d9; }
+
+  .path-arrow {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: 6px;
   }
-  .access-path-icon { font-size: 18px; }
-  .access-path-title {
+  .path-line {
+    flex: 1;
+    height: 1.5px;
+    border-top: 1.5px dashed;
+  }
+  .vpn    .path-line { border-color: #86efac; }
+  .funnel .path-line { border-color: #c4b5fd; }
+  .path-arrowhead {
     font-size: 12px;
-    font-weight: 700;
+    line-height: 1;
   }
-  .access-path.vpn    .access-path-title { color: #15803d; }
-  .access-path.funnel .access-path-title { color: #7c3aed; }
-  .access-path-sub {
+  .vpn    .path-arrowhead { color: #22c55e; }
+  .funnel .path-arrowhead { color: #a78bfa; }
+
+  .path-device {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+  }
+  .path-device-icon {
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .vpn    .path-device-icon { background: #dcfce7; border: 1.5px solid #86efac; }
+  .funnel .path-device-icon { background: #ede9fe; border: 1.5px solid #c4b5fd; }
+  .path-device-label {
     font-size: 10px;
+    font-weight: 700;
+    color: #1e293b;
+    text-align: center;
+  }
+  .path-device-sub {
+    font-size: 9px;
     color: #94a3b8;
     font-weight: 500;
-    margin-left: auto;
-    letter-spacing: 0.04em;
+    text-align: center;
+    line-height: 1.4;
   }
-  .access-chips {
+
+  .path-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .path-title {
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .vpn    .path-title { color: #15803d; }
+  .funnel .path-title { color: #6d28d9; }
+  .path-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 4px;
   }
   .chip {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 2px 6px;
+    border-radius: 5px;
     letter-spacing: 0.03em;
   }
   .chip.full    { background: #dcfce7; color: #166534; }
   .chip.partial { background: #fef9c3; color: #92400e; }
   .chip.hidden  { background: #f1f5f9; color: #94a3b8; }
 
-  /* ── Bottom bands ── */
-  .bands {
-    margin-top: 8px;
+  /* ── Tabs strip ── */
+  .tabs-strip {
     display: flex;
-    gap: 12px;
-  }
-  .band {
-    flex: 1;
-    border-radius: 12px;
-    padding: 14px 18px;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .band.local  { background: #f0fdf4; border: 1.5px solid #bbf7d0; }
-  .band.remote { background: #f5f3ff; border: 1.5px solid #ddd6fe; }
-  .band-icon { font-size: 18px; margin-top: 1px; }
-  .band-title {
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 3px;
-  }
-  .band.local  .band-title { color: #15803d; }
-  .band.remote .band-title { color: #6d28d9; }
-  .band-desc {
-    font-size: 11px;
-    color: #64748b;
-    line-height: 1.5;
-    font-weight: 500;
-  }
-
-  .footer {
-    margin-top: 24px;
-    text-align: center;
-    font-size: 11px;
-    color: #94a3b8;
-    letter-spacing: 0.05em;
-    font-weight: 500;
-  }
-
-  .pi-label {
-    position: absolute;
-    bottom: -6px;
-    right: -6px;
-    background: #15803d;
-    color: white;
-    border-radius: 6px;
-    font-size: 9px;
-    font-weight: 800;
-    padding: 2px 5px;
-    letter-spacing: 0.05em;
-  }
-  .pvs-badge {
-    position: absolute;
-    bottom: -6px;
-    right: -6px;
-    background: #ea580c;
-    color: white;
-    border-radius: 6px;
-    font-size: 9px;
-    font-weight: 800;
-    padding: 2px 5px;
-  }
-
-  .tabs-preview {
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-    margin-top: 6px;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 10px;
   }
   .tab-pill {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 5px;
-    background: #f1f5f9;
-    color: #475569;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #e0fdf4;
+    color: #065f46;
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
 
-  .divider {
-    height: 1px;
-    background: #e2e8f0;
-    margin: 24px 0;
+  /* ── Footer ── */
+  .footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 10px;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+    font-weight: 500;
   }
 </style>
 </head>
 <body>
 <div class="card">
+
   <div class="header">
     <h1>☀️ SunPower Local Monitor</h1>
     <p>Real-time solar dashboard · accessible from anywhere</p>
   </div>
 
-  <!-- Main data flow -->
-  <div class="diagram">
+  <div class="layout">
 
-    <div class="node">
-      <div class="icon-wrap solar">🌞</div>
-      <div class="node-label">Solar Panels</div>
-      <div class="node-sub">SunPower<br>Microinverters</div>
-    </div>
+    <!-- ── Left: Home Network ── -->
+    <div class="zone zone-home">
+      <div class="zone-label">🏠 Home Network</div>
 
-    <div class="arrow">
-      <svg viewBox="0 0 56 16" fill="none">
-        <line x1="0" y1="8" x2="46" y2="8" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 3"/>
-        <polyline points="40,3 52,8 40,13" stroke="#fbbf24" stroke-width="2" fill="none" stroke-linejoin="round"/>
-      </svg>
-      <div class="arrow-label">Live data</div>
-    </div>
+      <div class="home-flow">
 
-    <div class="node">
-      <div class="icon-wrap pvs">
-        📡
-        <div class="pvs-badge">PVS6</div>
-      </div>
-      <div class="node-label">SunPower Hub</div>
-      <div class="node-sub">HTTPS varserver<br>API on LAN</div>
-    </div>
-
-    <div class="arrow">
-      <svg viewBox="0 0 56 16" fill="none">
-        <line x1="0" y1="8" x2="46" y2="8" stroke="#34d399" stroke-width="2" stroke-dasharray="4 3"/>
-        <polyline points="40,3 52,8 40,13" stroke="#34d399" stroke-width="2" fill="none" stroke-linejoin="round"/>
-      </svg>
-      <div class="arrow-label">Polls every 30s</div>
-    </div>
-
-    <div class="node">
-      <div class="icon-wrap pi">
-        🍓
-        <div class="pi-label">Pi</div>
-      </div>
-      <div class="node-label">Raspberry Pi</div>
-      <div class="node-sub">Flask + Gunicorn<br>Always-on</div>
-      <div class="tabs-preview">
-        <span class="tab-pill">Overview</span>
-        <span class="tab-pill">Panels</span>
-        <span class="tab-pill">History</span>
-      </div>
-      <div class="tabs-preview">
-        <span class="tab-pill">Network</span>
-        <span class="tab-pill">Diag</span>
-      </div>
-    </div>
-
-    <div class="arrow">
-      <svg viewBox="0 0 56 16" fill="none">
-        <line x1="0" y1="8" x2="46" y2="8" stroke="#818cf8" stroke-width="2" stroke-dasharray="4 3"/>
-        <polyline points="40,3 52,8 40,13" stroke="#818cf8" stroke-width="2" fill="none" stroke-linejoin="round"/>
-      </svg>
-      <div class="arrow-label">Tailscale</div>
-    </div>
-
-    <div class="node">
-      <div class="icon-wrap cloud">🔐</div>
-      <div class="node-label">Tailscale</div>
-      <div class="node-sub">Encrypted tunnel<br>No open ports</div>
-    </div>
-
-    <div class="arrow">
-      <svg viewBox="0 0 56 16" fill="none">
-        <line x1="0" y1="8" x2="46" y2="8" stroke="#60a5fa" stroke-width="2" stroke-dasharray="4 3"/>
-        <polyline points="40,3 52,8 40,13" stroke="#60a5fa" stroke-width="2" fill="none" stroke-linejoin="round"/>
-      </svg>
-      <div class="arrow-label">Anywhere</div>
-    </div>
-
-    <div class="node">
-      <div class="icon-wrap phone">📱</div>
-      <div class="node-label">Any Device</div>
-      <div class="node-sub">Browser / PWA<br>iPhone home screen</div>
-    </div>
-
-  </div>
-
-  <!-- Local storage sub-row -->
-  <div class="storage-row">
-    <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
-      <svg width="16" height="32" viewBox="0 0 16 32" fill="none">
-        <line x1="8" y1="0" x2="8" y2="22" stroke="#a16207" stroke-width="1.5" stroke-dasharray="3 2"/>
-        <polyline points="3,17 8,28 13,17" stroke="#a16207" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-      </svg>
-      <div class="node" style="flex:0 0 auto;">
-        <div class="icon-wrap store" style="width:56px;height:56px;font-size:24px;">💾</div>
-        <div class="node-label" style="font-size:11px;">history.json</div>
-        <div class="node-sub" style="font-size:10px;">Daily baselines<br>per panel + grid</div>
-      </div>
-      <div style="font-size:10px;color:#94a3b8;max-width:160px;line-height:1.5;font-weight:500;">
-        Survives restarts.<br>Back up when migrating devices.
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- Access tiers -->
-  <div class="access-section">
-    <div class="access-title">Access Tiers</div>
-    <div class="access-paths">
-
-      <div class="access-path vpn">
-        <div class="access-path-header">
-          <span class="access-path-icon">🔒</span>
-          <span class="access-path-title">Local / Tailscale VPN</span>
-          <span class="access-path-sub">direct peer-to-peer</span>
+        <!-- Solar -->
+        <div class="node">
+          <div class="icon-wrap solar">🌞</div>
+          <div class="node-label">Solar<br>Panels</div>
+          <div class="node-sub">Micro-<br>inverters</div>
         </div>
-        <div class="access-chips">
-          <span class="chip full">Full panel serials</span>
-          <span class="chip full">MAC address</span>
-          <span class="chip full">Wi-Fi password</span>
-          <span class="chip full">Per-panel history</span>
-          <span class="chip full">Meter serials</span>
-          <span class="chip full">PVS host</span>
-        </div>
-      </div>
 
-      <div class="access-path funnel">
-        <div class="access-path-header">
-          <span class="access-path-icon">🌐</span>
-          <span class="access-path-title">Tailscale Funnel (public URL)</span>
-          <span class="access-path-sub">proxied · X-Forwarded-For</span>
+        <!-- Solar → PVS6 -->
+        <div class="h-arrow">
+          <svg viewBox="0 0 40 14" fill="none">
+            <line x1="0" y1="7" x2="30" y2="7" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="3 2.5"/>
+            <polyline points="25,3 37,7 25,11" stroke="#fbbf24" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+          </svg>
+          <div class="h-arrow-label">live</div>
         </div>
-        <div class="access-chips">
-          <span class="chip partial">Serials redacted</span>
-          <span class="chip hidden">MAC hidden</span>
-          <span class="chip hidden">Wi-Fi hidden</span>
-          <span class="chip partial">Daily totals only</span>
-          <span class="chip hidden">Host hidden</span>
-          <span class="chip full">Live dashboard</span>
+
+        <!-- PVS6 -->
+        <div class="node">
+          <div class="icon-wrap pvs">
+            📡
+            <div class="badge orange">PVS6</div>
+          </div>
+          <div class="node-label">SunPower<br>Hub</div>
+          <div class="node-sub">HTTPS API<br>on LAN</div>
         </div>
-      </div>
 
-    </div>
-  </div>
+        <!-- PVS6 → Pi -->
+        <div class="h-arrow">
+          <svg viewBox="0 0 40 14" fill="none">
+            <line x1="0" y1="7" x2="30" y2="7" stroke="#34d399" stroke-width="1.5" stroke-dasharray="3 2.5"/>
+            <polyline points="25,3 37,7 25,11" stroke="#34d399" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+          </svg>
+          <div class="h-arrow-label">30 s poll</div>
+        </div>
 
-  <!-- Bottom bands -->
-  <div class="bands">
-    <div class="band local">
-      <div class="band-icon">🏠</div>
-      <div>
-        <div class="band-title">Home Network</div>
-        <div class="band-desc">Panels → PVS6 → Raspberry Pi all communicate locally. Authenticated via HTTPS with the last 5 chars of the PVS6 serial. Data never leaves your home network.</div>
+        <!-- Pi + storage below -->
+        <div class="pi-col">
+          <div class="node">
+            <div class="icon-wrap pi">
+              🍓
+              <div class="badge green">Pi</div>
+            </div>
+            <div class="node-label">Raspberry Pi</div>
+            <div class="node-sub">Flask · Gunicorn</div>
+            <div class="tabs-strip">
+              <span class="tab-pill">Overview</span>
+              <span class="tab-pill">Panels</span>
+              <span class="tab-pill">History</span>
+              <span class="tab-pill">Network</span>
+              <span class="tab-pill">Diag</span>
+            </div>
+          </div>
+          <!-- vertical connector to storage -->
+          <div class="v-connector">
+            <svg viewBox="0 0 14 28" fill="none">
+              <line x1="7" y1="0" x2="7" y2="20" stroke="#ca8a04" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <polyline points="3,15 7,26 11,15" stroke="#ca8a04" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="node">
+            <div class="icon-wrap store" style="width:48px;height:48px;font-size:22px;border-radius:14px;">💾</div>
+            <div class="node-label" style="font-size:11px;">history.json</div>
+            <div class="node-sub">Daily baselines<br>per panel + grid</div>
+          </div>
+        </div>
+
       </div>
     </div>
-    <div class="band remote">
-      <div class="band-icon">🌐</div>
-      <div>
-        <div class="band-title">Remote Access</div>
-        <div class="band-desc">Tailscale VPN: peer-to-peer encrypted tunnel, no open firewall ports, full trusted access. Tailscale Funnel: public HTTPS URL, sensitive identifiers automatically redacted.</div>
+
+    <!-- ── Centre: Gateway ── -->
+    <div class="gateway">
+      <div class="node">
+        <div class="icon-wrap ts">🔐</div>
+        <div class="node-label">Tailscale</div>
+        <div class="node-sub">Encrypted<br>tunnel</div>
+      </div>
+      <div class="gw-arrow">
+        <svg viewBox="0 0 40 14" fill="none">
+          <line x1="0" y1="7" x2="30" y2="7" stroke="#818cf8" stroke-width="1.5" stroke-dasharray="3 2.5"/>
+          <polyline points="25,3 37,7 25,11" stroke="#818cf8" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+        </svg>
+        <div class="gw-arrow-label">VPN</div>
       </div>
     </div>
-  </div>
+
+    <!-- ── Right: Remote Access ── -->
+    <div class="zone zone-remote">
+      <div class="zone-label">🌐 Remote Access</div>
+
+      <div class="remote-paths">
+
+        <!-- VPN path -->
+        <div class="access-path vpn">
+          <div>
+            <div class="path-badge">VPN</div>
+          </div>
+          <div class="path-info">
+            <div class="path-title">Tailscale VPN — Trusted</div>
+            <div class="path-chips">
+              <span class="chip full">Full serials</span>
+              <span class="chip full">MAC + Wi-Fi key</span>
+              <span class="chip full">Per-panel history</span>
+            </div>
+          </div>
+          <div class="path-arrow">
+            <div class="path-line"></div>
+            <div class="path-arrowhead">▶</div>
+          </div>
+          <div class="path-device">
+            <div class="path-device-icon">📱</div>
+            <div class="path-device-label">Any device</div>
+            <div class="path-device-sub">Peer-to-peer<br>no open ports</div>
+          </div>
+        </div>
+
+        <!-- Funnel path -->
+        <div class="access-path funnel">
+          <div>
+            <div class="path-badge">Funnel</div>
+          </div>
+          <div class="path-info">
+            <div class="path-title">Tailscale Funnel — Public</div>
+            <div class="path-chips">
+              <span class="chip partial">Serials redacted</span>
+              <span class="chip hidden">MAC + Wi-Fi hidden</span>
+              <span class="chip partial">Daily totals only</span>
+            </div>
+          </div>
+          <div class="path-arrow">
+            <div class="path-line"></div>
+            <div class="path-arrowhead">▶</div>
+          </div>
+          <div class="path-device">
+            <div class="path-device-icon">💻</div>
+            <div class="path-device-label">Any browser</div>
+            <div class="path-device-sub">Public HTTPS<br>identifiers redacted</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /.layout -->
 
   <div class="footer">
     Built with Python · Flask · Gunicorn · Tailscale &nbsp;·&nbsp; Self-hosted · Open source
   </div>
+
 </div>
 </body>
 </html>
