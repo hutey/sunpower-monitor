@@ -153,6 +153,17 @@ All `/api/*` routes are rate-limited to 60 requests per minute per IP.
 
 ---
 
+## Tests
+
+```bash
+pip3 install pytest
+pytest test_sunpower_monitor.py -v
+```
+
+63 tests covering: data redaction, history recording, Tailscale access detection, rate limiting, grid direction logic, CT clamp correction, diagnostic warnings, and graceful degradation when PVS endpoints are unavailable. No PVS hardware required — all network I/O is mocked.
+
+---
+
 ## Notes
 
 - The PVS6 serial number is on the label on the unit. The password is the **last 5 characters** — e.g. if the serial ends in `XXXXX`, the password is `XXXXX`.
