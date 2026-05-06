@@ -445,6 +445,18 @@ class TestFetchAllData:
         )
         assert data["summary"]["ct_corrected"] is False
 
+    def test_ct_correction_disabled_by_config(self):
+        # With CT_CORRECTION=False, a negative home_kw is passed through as-is
+        with patch.object(spm, "CT_CORRECTION", False):
+            data = self._fetch(
+                _inverter_flat(kw="8.0"),
+                {"/sys/livedata/pv_p": "8.0", "/sys/livedata/net_p": "-5.75",
+                 "/sys/livedata/site_load_p": "-5.75",
+                 "/sys/livedata/pv_en": "1000.0"},
+            )
+        assert data["summary"]["ct_corrected"] is False
+        assert data["summary"]["home_kw"] == pytest.approx(-5.75)
+
     def test_ct_correction_clamps_home_kw_to_zero(self):
         # PV 1 kW, home_kw = -5 → corrected = max(0, 1 + (-5)) = 0
         data = self._fetch(
