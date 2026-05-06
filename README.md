@@ -166,7 +166,7 @@ pytest test_sunpower_monitor.py -v
 
 ## Notes
 
-- The PVS6 serial number is on the label on the unit. The password is the **last 5 characters** — e.g. if the serial ends in `W2208`, the password is `W2208`.
+- The PVS6 serial number is on the label on the unit. The password is the **last 5 characters** — e.g. if the serial ends in `XY3Z9`, the password is `XY3Z9`.
 - `history.json` is created automatically and stores daily production baselines per panel and grid meter. Back it up if you migrate to a new device.
 - Network settings shown in the Network tab are read-only on firmware 2025.09+. To change WiFi, use the SunStrong mobile app (Bluetooth commissioning) or the PVS hotspot setup page.
 - `ct_correction` (default `true`): when enabled, a negative home-load reading caused by a backwards CT clamp is automatically corrected. Set to `false` in `config.json` if your CT clamps are correctly oriented and you want raw meter readings.
