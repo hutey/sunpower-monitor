@@ -74,11 +74,11 @@ Use [Raspberry Pi Imager](https://www.raspberrypi.com/software/) to flash **Rasp
 ### 2. Copy files and install dependencies
 
 ```bash
-scp sunpower_monitor.py config.json requirements.txt YOUR_USER@sunpower.local:~/
+scp sunpower_monitor.py config.json requirements.txt YOUR_USER@sunpower.local:~/sunpower/
 ssh YOUR_USER@sunpower.local
 
-python3 -m venv ~/sunpower-env
-~/sunpower-env/bin/pip install -r requirements.txt
+python3 -m venv ~/pisunpower-env
+~/pisunpower-env/bin/pip install -r ~/sunpower/requirements.txt
 ```
 
 ### 3. Set up as a system service
@@ -95,10 +95,12 @@ Wants=network-online.target
 
 [Service]
 User=YOUR_USER
-WorkingDirectory=/home/YOUR_USER
-ExecStart=/home/YOUR_USER/sunpower-env/bin/gunicorn --workers 2 --bind 0.0.0.0:5001 --timeout 60 sunpower_monitor:app
+WorkingDirectory=/home/YOUR_USER/sunpower
+ExecStart=/home/YOUR_USER/pisunpower-env/bin/gunicorn --workers 2 --bind 0.0.0.0:5001 --timeout 60 sunpower_monitor:app
 Restart=on-failure
 RestartSec=10
+StartLimitIntervalSec=300
+StartLimitBurst=10
 
 [Install]
 WantedBy=multi-user.target
@@ -164,10 +166,51 @@ pytest test_sunpower_monitor.py -v
 
 ---
 
+## Deployment
+
+Once the service is running, use `deploy.sh` from your Mac to push updates and restart:
+
+```bash
+./deploy.sh              # deploy + graceful reload (zero downtime)
+./deploy.sh --restart    # deploy + full systemd restart
+./deploy.sh --status     # check service health and API without deploying
+./deploy.sh --dry-run    # preview what would be deployed
+```
+
+The script reads `pi_user` and `pi_host` from `config.json`. For automated restarts without a password prompt, run once:
+
+```bash
+./deploy.sh --setup-sudo
+```
+
+## Debugging
+
+`sunpower_debug.py` is a diagnostic tool that checks the Pi, service, PVS connection, and history gaps in one report:
+
+```bash
+# Full report (SSH + API checks)
+python3 sunpower_debug.py
+
+# API checks only (no SSH required)
+python3 sunpower_debug.py --host http://pisunpower.local:5001
+
+# Run directly on the Pi
+python3 sunpower_debug.py --local
+
+# Show last 100 journal log lines
+python3 sunpower_debug.py --logs 100
+
+# Direct PVS varserver probe
+python3 sunpower_debug.py --pvs
+```
+
+---
+
 ## Notes
 
 - The PVS6 serial number is on the label on the unit. The password is the **last 5 characters** — e.g. if the serial ends in `XY3Z9`, the password is `XY3Z9`.
-- `history.json` is created automatically and stores daily production baselines per panel and grid meter. Back it up if you migrate to a new device.
+- `history.json` stores daily production baselines per panel and grid meter. If the Pi is offline when midnight rolls over, that day's baseline is set at restart time and any earlier production is unrecoverable. Back up this file before migrating to a new device.
+- If the filesystem goes read-only (common after a bad shutdown on SD card), the app will continue serving live data and log write failures — it will not return 500 errors. Fix the filesystem and restart to resume history recording.
 - Network settings shown in the Network tab are read-only on firmware 2025.09+. To change WiFi, use the SunStrong mobile app (Bluetooth commissioning) or the PVS hotspot setup page.
 - `ct_correction` (default `true`): when enabled, a negative home-load reading caused by a backwards CT clamp is automatically corrected. Set to `false` in `config.json` if your CT clamps are correctly oriented and you want raw meter readings.
 

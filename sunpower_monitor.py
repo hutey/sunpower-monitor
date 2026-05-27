@@ -196,13 +196,30 @@ def _load_history():
     return _history_cache
 
 
+_history_write_errors = 0   # count consecutive write failures for logging
+
 def _save_history():
+    global _history_write_errors
     if _history_cache is None:
         return
     tmp = HISTORY_FILE.with_suffix(".json.tmp")
-    with open(tmp, "w") as f:
-        json.dump(_history_cache, f, indent=2, sort_keys=True)
-    tmp.replace(HISTORY_FILE)
+    try:
+        with open(tmp, "w") as f:
+            json.dump(_history_cache, f, indent=2, sort_keys=True)
+        tmp.replace(HISTORY_FILE)
+        if _history_write_errors:
+            print(f"[history] write recovered after {_history_write_errors} failure(s)")
+        _history_write_errors = 0
+    except OSError as e:
+        _history_write_errors += 1
+        # Log every failure but only print the first and every 10th to avoid log spam
+        if _history_write_errors == 1 or _history_write_errors % 10 == 0:
+            print(f"[history] WARNING: could not write history.json (#{_history_write_errors}): {e}")
+            print(f"[history]   Readings are held in memory. Fix the filesystem and restart to persist.")
+        try:
+            tmp.unlink(missing_ok=True)
+        except OSError:
+            pass
 
 
 def record_reading(serial, current_kwh):
